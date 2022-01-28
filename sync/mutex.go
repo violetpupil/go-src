@@ -2,6 +2,8 @@ package sync
 
 import "sync/atomic"
 
+func throw(string)
+
 type Mutex struct {
 	state int32
 }
@@ -20,4 +22,19 @@ func (m *Mutex) Lock() {
 	m.lockSlow()
 }
 
-func (m *Mutex) lockSlow()
+func (m *Mutex) lockSlow() {
+	starving := false
+	old := m.state
+	for {
+		new := old
+		if old&mutexStarving == 0 {
+			new |= mutexLocked
+		}
+		if old&(mutexLocked|mutexStarving) != 0 {
+			new += 1 << mutexWaiterShift
+		}
+		if starving && old&mutexLocked != 0 {
+			new |= mutexStarving
+		}
+	}
+}
