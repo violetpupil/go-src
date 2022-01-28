@@ -23,18 +23,16 @@ func (m *Mutex) Lock() {
 }
 
 func (m *Mutex) lockSlow() {
-	starving := false
 	old := m.state
 	for {
 		new := old
+		// !starving
 		if old&mutexStarving == 0 {
 			new |= mutexLocked
 		}
+		// 101 || 1 || 100
 		if old&(mutexLocked|mutexStarving) != 0 {
 			new += 1 << mutexWaiterShift
-		}
-		if starving && old&mutexLocked != 0 {
-			new |= mutexStarving
 		}
 	}
 }
