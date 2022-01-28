@@ -32,6 +32,7 @@ func (m *Mutex) lockSlow() {
 		}
 		// 101 || 1 || 100
 		if old&(mutexLocked|mutexStarving) != 0 {
+			// waiter + 1
 			new += 1 << mutexWaiterShift
 		}
 	}
