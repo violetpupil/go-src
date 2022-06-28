@@ -2,6 +2,7 @@ package runtime
 
 type gcTrigger struct {
 	kind gcTriggerKind
+	now  int64
 }
 
 type gcTriggerKind int
