@@ -13,3 +13,7 @@ type forcegcstate struct {
 	g    *g
 	idle uint32
 }
+
+var (
+	forcegc forcegcstate
+)
