@@ -37,6 +37,9 @@ const (
 )
 
 func (t gcTrigger) test() bool {
+	if !memstats.enablegc || panicking != 0 || gcphase != _GCoff {
+		return false
+	}
 	switch t.kind {
 	case gcTriggerHeap:
 	case gcTriggerTime:
