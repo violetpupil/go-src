@@ -4,6 +4,14 @@ import (
 	"runtime/internal/atomic"
 )
 
+var gcphase uint32
+
+const (
+	_GCoff = iota
+	_GCmark
+	_GCmarktermination
+)
+
 var work struct {
 	cycles uint32
 }
