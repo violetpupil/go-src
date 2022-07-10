@@ -45,6 +45,7 @@ func (t gcTrigger) test() bool {
 		return gcController.heapLive >= gcController.trigger
 	case gcTriggerTime:
 	case gcTriggerCycle:
+		return int32(t.n-work.cycles) > 0
 	}
 	return true
 }
