@@ -26,6 +26,8 @@ func forcegchelper() {
 
 func newm(fn func(), _p_ *p, id int64) {}
 
+var forcegcperiod int64 = 2 * 60 * 1e9
+
 func sysmon() {
 	for {
 		now := nanotime()

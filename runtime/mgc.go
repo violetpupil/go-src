@@ -44,6 +44,11 @@ func (t gcTrigger) test() bool {
 	case gcTriggerHeap:
 		return gcController.heapLive >= gcController.trigger
 	case gcTriggerTime:
+		if gcController.gcPercent.Load() < 0 {
+			return false
+		}
+		lastgc := int64(atomic.Load64(&memstats.last_gc_nanotime))
+		return lastgc != 0 && t.now-lastgc > forcegcperiod
 	case gcTriggerCycle:
 		return int32(t.n-work.cycles) > 0
 	}
