@@ -42,6 +42,7 @@ func (t gcTrigger) test() bool {
 	}
 	switch t.kind {
 	case gcTriggerHeap:
+		return gcController.heapLive >= gcController.trigger
 	case gcTriggerTime:
 	case gcTriggerCycle:
 	}
